@@ -2,10 +2,7 @@ package lib.Tests;
 
 import lib.CoreTestCase;
 import lib.Platform;
-import lib.ui.ArticlePageObject;
-import lib.ui.MyListsPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListsPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
@@ -15,13 +12,16 @@ import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase {
     private static final String name_of_folder = "Learning programming";
+    private static final String login = "MyOwnTestAccount";
+    private static final String password = "-mk6$x-R8z&K$SH";
+
 
     @Test
     public void testSaveFirstArticleToMyList() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Java (programming language)");
+        searchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
@@ -29,6 +29,20 @@ public class MyListsTests extends CoreTestCase {
         if (Platform.getInstance().isAndroid()) {
             articlePageObject.addArticleToMyList(name_of_folder);
         } else {
+            articlePageObject.addArticlesToMySaved();
+        }
+        if (Platform.getInstance().isMW()){
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthButton();
+            auth.enterLoginData(login, password);
+            auth.submitForm();
+
+            articlePageObject.waitForTitleElement();
+
+            assertEquals("We are not on the same page after login",
+                    article_title,
+                    articlePageObject.getArticleTitle());
+
             articlePageObject.addArticlesToMySaved();
         }
         if (Platform.getInstance().isAndroid()) {
@@ -39,6 +53,7 @@ public class MyListsTests extends CoreTestCase {
         }
 
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        navigationUI.openNavigation();
         navigationUI.clickMyLists();
         MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {

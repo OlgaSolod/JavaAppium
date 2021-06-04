@@ -8,7 +8,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +64,7 @@ public class Platform {
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
-        capabilities.setCapability("app", "/Users/stivensonstivenson/Desktop/JavaAppiumAutomation/apks/org.wikipedia.apk");
+        capabilities.setCapability("app", "/Users/rostellie/Desktop/JavaAppiumAutomation/apks/org.wikipedia.apk");
         return capabilities;
     }
 
@@ -74,7 +73,7 @@ public class Platform {
         capabilities.setCapability("platformName", "iOS");
         capabilities.setCapability("deviceName", "iPhone 8");
         capabilities.setCapability("platformVersion", "14.5");
-        capabilities.setCapability("app", "/Users/stivensonstivenson/Desktop/JavaAppiumAutomation/apks/Wikipedia.app");
+        capabilities.setCapability("app", "/Users/rostellie/Desktop/JavaAppiumAutomation/apks/Wikipedia.app");
         return capabilities;
     }
 

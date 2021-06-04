@@ -38,7 +38,4 @@ public class ArticleTests extends CoreTestCase {
         articlePageObject.waitForTitleElement();
         articlePageObject.swipeToFooter();
     }
-
-
-
 }
