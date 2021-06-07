@@ -24,6 +24,9 @@ public class MyListsTests extends CoreTestCase {
         searchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+//        if (Platform.getInstance().isMW()) {
+//            articlePageObject.hideNoticeWindow();
+//        }
         articlePageObject.waitForTitleElement();
         String article_title = articlePageObject.getArticleTitle();
         if (Platform.getInstance().isAndroid()) {
@@ -31,7 +34,7 @@ public class MyListsTests extends CoreTestCase {
         } else {
             articlePageObject.addArticlesToMySaved();
         }
-        if (Platform.getInstance().isMW()){
+        if (Platform.getInstance().isMW()) {
             AuthorizationPageObject auth = new AuthorizationPageObject(driver);
             auth.clickAuthButton();
             auth.enterLoginData(login, password);
@@ -45,10 +48,9 @@ public class MyListsTests extends CoreTestCase {
 
             articlePageObject.addArticlesToMySaved();
         }
-        if (Platform.getInstance().isAndroid()) {
-            articlePageObject.closeArticle();
-        } else {
-            articlePageObject.closeArticle();
+
+        articlePageObject.closeArticle();
+        if (Platform.getInstance().isIOS()) {
             articlePageObject.tapCancelButtonInSearch();
         }
 
@@ -59,7 +61,7 @@ public class MyListsTests extends CoreTestCase {
         if (Platform.getInstance().isAndroid()) {
 
             myListsPageObject.openFolderByName(name_of_folder);
-        } else {
+        } else if (Platform.getInstance().isIOS()){
             myListsPageObject.tapCloseButtonInOverlayScreenInSaved();
         }
         myListsPageObject.swipeArticleToDelete(article_title);

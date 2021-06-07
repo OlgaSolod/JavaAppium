@@ -69,7 +69,6 @@ public class MainPageObject {
             }
             ++current_attempts;
         }
-
     }
 
     public void swipeUp(int timeOfSwipe) {
@@ -211,12 +210,15 @@ public class MainPageObject {
     public WebElement waitForElementPresent(String locator, String error_message) {
 
         return waitForElementPresent(locator, error_message, 15);
-
     }
 
     public WebElement waitForElementAndClick(String locator, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(locator, error_message, timeoutInSeconds);
-        element.click();
+        if ((Platform.getInstance().isIOS()) || Platform.getInstance().isAndroid()) {
+            element.click();
+        } else {
+            clickElement(element);
+        }
         return element;
     }
 
@@ -269,5 +271,14 @@ public class MainPageObject {
         } else {
             throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locator_with_type);
         }
+    }
+
+    public void clickElement(WebElement element) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        element.click();
     }
 }

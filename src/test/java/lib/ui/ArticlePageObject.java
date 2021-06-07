@@ -20,7 +20,8 @@ abstract public class ArticlePageObject extends MainPageObject {
             CLOSE_ARTICLE_BUTTON,
             EXISTING_FOLDER,
             ELEMENT_TYPE_NAVIGATION_BAR,
-            CANCEL_SEARCH_BUTTON;
+            CANCEL_SEARCH_BUTTON,
+            HIDE_NOTICE_BUTTON;
 
 
     public ArticlePageObject(RemoteWebDriver driver) {
@@ -95,7 +96,6 @@ abstract public class ArticlePageObject extends MainPageObject {
                     40
             );
         }
-
     }
 
     public void addArticleToMyList(String name_of_folder) {
@@ -138,7 +138,15 @@ abstract public class ArticlePageObject extends MainPageObject {
             this.removeArticleFromMySavedIfItAdded();
         }
         this.waitForElementAndClick(
-                OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 5);
+                OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 15);
+    }
+
+    public void hideNoticeWindow() {
+        try{
+            this.waitForElementAndClick(HIDE_NOTICE_BUTTON, "Cannot find notice window", 5);
+        } catch (Exception e){
+            return;
+        }
     }
 
     public void removeArticleFromMySavedIfItAdded() {
@@ -146,14 +154,13 @@ abstract public class ArticlePageObject extends MainPageObject {
             this.waitForElementAndClick(
                     OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
                     "Cannot click button to remove from mySaved",
-                    10
+                    5
             );
             this.waitForElementPresent(
                     OPTIONS_ADD_TO_MY_LIST_BUTTON,
                     "Cannot find button to add an article to saved list after removing it from this list before");
         }
     }
-
 
     public void addArticleToExistingList() {
         this.waitForElementAndClick(
@@ -176,7 +183,7 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void closeArticle() {
-        if (Platform.getInstance().isIOS() || Platform.getInstance().isIOS()) {
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
             this.waitForElementAndClick(
                     CLOSE_ARTICLE_BUTTON,
                     "Cannot close article, cannot find X link",

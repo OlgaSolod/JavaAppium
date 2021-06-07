@@ -79,16 +79,16 @@ public class Platform {
 
     private ChromeOptions getMWChromeOptions() {
         Map<String, Object> deviceMetrics = new HashMap<>();
-        deviceMetrics.put("width", 360);
-        deviceMetrics.put("height", 640);
+        deviceMetrics.put("width", 600);
+        deviceMetrics.put("height", 800);
         deviceMetrics.put("pixelRatio", 3.0);
 
         Map<String, Object> mobileEmulation = new HashMap<>();
-        mobileEmulation.put("deviceMetics", deviceMetrics);
+        mobileEmulation.put("deviceMetrics", deviceMetrics);
         mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) ");
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("window-size=360,640");
+        chromeOptions.addArguments("window-size=600,800");
         return chromeOptions;
     }
 
