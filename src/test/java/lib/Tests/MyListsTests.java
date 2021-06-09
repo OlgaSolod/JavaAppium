@@ -61,7 +61,7 @@ public class MyListsTests extends CoreTestCase {
         if (Platform.getInstance().isAndroid()) {
 
             myListsPageObject.openFolderByName(name_of_folder);
-        } else if (Platform.getInstance().isIOS()){
+        } else if (Platform.getInstance().isIOS()) {
             myListsPageObject.tapCloseButtonInOverlayScreenInSaved();
         }
         myListsPageObject.swipeArticleToDelete(article_title);
@@ -72,7 +72,7 @@ public class MyListsTests extends CoreTestCase {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Java (programming language)");
+        searchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         String article_title_first;
         if (Platform.getInstance().isAndroid()) {
@@ -80,38 +80,75 @@ public class MyListsTests extends CoreTestCase {
             article_title_first = articlePageObject.getArticleTitle();
             articlePageObject.addArticleToMyList(name_of_folder);
             articlePageObject.closeArticle();
-        } else {
+        } else if (Platform.getInstance().isIOS()) {
             articlePageObject.waitForNavigationTypeElement();
             article_title_first = articlePageObject.getElementTypeNavigationBar();
             articlePageObject.addArticlesToMySaved();
             articlePageObject.closeArticle();
             articlePageObject.tapCancelButtonInSearch();
+        } else {
+            article_title_first = articlePageObject.getArticleTitle();
+            articlePageObject.addArticlesToMySaved();
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthButton();
+            auth.enterLoginData(login, password);
+            auth.submitForm();
+
+            articlePageObject.waitForTitleElement();
+
+            assertEquals("We are not on the same page after login",
+                    article_title_first,
+                    articlePageObject.getArticleTitle());
+
+            articlePageObject.addArticlesToMySaved();
         }
+        //Добавляем в избранное вторую статью
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("JavaScript");
+        searchPageObject.clickByArticleWithSubstring("avaScript");
         String article_title_second;
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {
+            searchPageObject.clickByArticleWithSubstring("avaScript");
             articlePageObject.waitForTitleElement();
             article_title_second = articlePageObject.getArticleTitle();
             articlePageObject.addArticleToExistingList();
             articlePageObject.closeArticle();
-        } else {
+        } else if (Platform.getInstance().isIOS()) {
+            searchPageObject.clickByArticleWithSubstring("avaScript");
             articlePageObject.waitForNavigationTypeElement();
             article_title_second = articlePageObject.getElementTypeNavigationBar();
             articlePageObject.addArticlesToMySaved();
             articlePageObject.closeArticle();
             articlePageObject.tapCancelButtonInSearch();
+        } else {
+            navigationUI.clickToReturnToMainPage();
+            searchPageObject.initSearchInput();
+            searchPageObject.typeSearchLine("Java");
+            searchPageObject.clickByArticleWithSubstring("igh-level programming language");
+            article_title_second = articlePageObject.getArticleTitle();
+            articlePageObject.addArticlesToMySaved();
         }
-        NavigationUI navigationUI = NavigationUIFactory.get(driver);
-        navigationUI.clickMyLists();
+
         MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
-        if (Platform.getInstance().isAndroid()) {
+        if (Platform.getInstance().isMW()) {
+            navigationUI.openNavigation();
+            navigationUI.clickMyLists();
+        } else if (Platform.getInstance().isAndroid()) {
+            navigationUI.clickMyLists();
             myListsPageObject.openFolderByName(name_of_folder);
         } else {
+            navigationUI.clickMyLists();
             myListsPageObject.tapCloseButtonInOverlayScreenInSaved();
         }
+        //Удаляем первую статью
         myListsPageObject.swipeArticleToDelete(article_title_first);
+
+        //проверяем вторую статью
+        if (Platform.getInstance().isMW()) {
+            navigationUI.openNavigation();
+        }
+        navigationUI.clickMyLists();
         if (Platform.getInstance().isAndroid()) {
             myListsPageObject.waitForArticleToAppearByTitle(article_title_second);
         }

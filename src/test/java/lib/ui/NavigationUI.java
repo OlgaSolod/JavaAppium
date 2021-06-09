@@ -8,7 +8,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 abstract public class NavigationUI extends MainPageObject {
     protected static String
             MY_LISTS_LINK,
-            OPEN_NAVIGATION;
+            OPEN_NAVIGATION,
+            RETURN_TO_MAIN_PAGE;
 
     public NavigationUI(RemoteWebDriver driver) {
         super(driver);
@@ -38,5 +39,9 @@ abstract public class NavigationUI extends MainPageObject {
                     5
             );
         }
+    }
+
+    public void clickToReturnToMainPage() {
+        waitForElementAndClick(RETURN_TO_MAIN_PAGE, "Cannot click to Wikipedia-main page button", 15);
     }
 }
