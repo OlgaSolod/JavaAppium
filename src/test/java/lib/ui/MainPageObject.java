@@ -7,6 +7,7 @@ import io.appium.java_client.touch.offset.PointOption;
 import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -217,7 +218,8 @@ public class MainPageObject {
         if ((Platform.getInstance().isIOS()) || Platform.getInstance().isAndroid()) {
             element.click();
         } else {
-            clickElement(element);
+            new Actions(driver).pause(1000).perform();
+            element.click();
         }
         return element;
     }
@@ -271,14 +273,5 @@ public class MainPageObject {
         } else {
             throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locator_with_type);
         }
-    }
-
-    public void clickElement(WebElement element) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        element.click();
     }
 }

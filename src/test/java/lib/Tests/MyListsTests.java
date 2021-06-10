@@ -102,7 +102,7 @@ public class MyListsTests extends CoreTestCase {
 
             articlePageObject.addArticlesToMySaved();
         }
-        
+
         //Добавляем в избранное вторую статью
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -110,13 +110,13 @@ public class MyListsTests extends CoreTestCase {
         String article_title_second;
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {
-            searchPageObject.clickByArticleWithSubstring("avaScript");
+            searchPageObject.clickByArticleWithSubstring("JavaScript");
             articlePageObject.waitForTitleElement();
             article_title_second = articlePageObject.getArticleTitle();
             articlePageObject.addArticleToExistingList();
             articlePageObject.closeArticle();
         } else if (Platform.getInstance().isIOS()) {
-            searchPageObject.clickByArticleWithSubstring("avaScript");
+            searchPageObject.clickByArticleWithSubstring("JavaScript");
             articlePageObject.waitForNavigationTypeElement();
             article_title_second = articlePageObject.getElementTypeNavigationBar();
             articlePageObject.addArticlesToMySaved();
