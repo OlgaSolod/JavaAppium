@@ -102,6 +102,7 @@ public class MyListsTests extends CoreTestCase {
 
             articlePageObject.addArticlesToMySaved();
         }
+        
         //Добавляем в избранное вторую статью
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -129,7 +130,7 @@ public class MyListsTests extends CoreTestCase {
             article_title_second = articlePageObject.getArticleTitle();
             articlePageObject.addArticlesToMySaved();
         }
-
+        //Открываем список сохраненных статей
         MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
         if (Platform.getInstance().isMW()) {
             navigationUI.openNavigation();
@@ -145,10 +146,6 @@ public class MyListsTests extends CoreTestCase {
         myListsPageObject.swipeArticleToDelete(article_title_first);
 
         //проверяем вторую статью
-        if (Platform.getInstance().isMW()) {
-            navigationUI.openNavigation();
-        }
-        navigationUI.clickMyLists();
         if (Platform.getInstance().isAndroid()) {
             myListsPageObject.waitForArticleToAppearByTitle(article_title_second);
         }
@@ -163,6 +160,8 @@ public class MyListsTests extends CoreTestCase {
                     "JavaScript",
                     element_type_navigation_bar);
         } else {
+            articlePageObject.waitForTitleElement();
+            myListsPageObject.clickOnHeaderOfArticle(article_title_second);
             Assert.assertEquals("There is no expected article " + article_title_second,
                     "JavaScript",
                     article_title_second);

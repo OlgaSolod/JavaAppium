@@ -1,6 +1,5 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -19,6 +18,10 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     private static String getFolderXPathByName(String name_of_folder) {
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
+    }
+
+    private static String getArticleByTitleTpl(String article_title){
+        return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", article_title);
     }
 
     private static String getSavedArticleXPathByTitle(String article_title) {
@@ -85,5 +88,15 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     public void tapCloseButtonInOverlayScreenInSaved() {
         this.waitForElementAndClick(CLOSE_OVERLAY_SYNC_YOUR_SAVED_ARTICLES, "Cannot find 'Close' button on overlay screen 'sync your saved articles'", 10);
+    }
+
+    public void clickOnHeaderOfArticle(String article_title){
+        String header = getArticleByTitleTpl(article_title);
+        this.waitForElementAndClick(
+                header,
+                "Cannot find article with title " + header,
+                15
+        );
+
     }
 }
