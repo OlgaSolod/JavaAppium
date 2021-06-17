@@ -7,6 +7,7 @@ import io.appium.java_client.touch.offset.PointOption;
 import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -96,8 +97,10 @@ public class MainPageObject {
 
     public void scrollWebPageUp() {
         if (Platform.getInstance().isMW()) {
-            JavascriptExecutor jsexecutor = (JavascriptExecutor) driver;
-            jsexecutor.executeScript("window.scrollBy(0, 250)");
+
+            driver.executeScript("window.scrollBy(0, 250)", "");
+
+
         } else {
             System.out.println("Method scrollWebPageUp() does nothing for platform " + Platform.getInstance().getPlatformVar());
         }

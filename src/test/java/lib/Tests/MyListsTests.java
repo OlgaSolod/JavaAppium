@@ -81,8 +81,9 @@ public class MyListsTests extends CoreTestCase {
             articlePageObject.addArticleToMyList(name_of_folder);
             articlePageObject.closeArticle();
         } else if (Platform.getInstance().isIOS()) {
-            articlePageObject.waitForNavigationTypeElement();
-            article_title_first = articlePageObject.getElementTypeNavigationBar();
+            article_title_first = articlePageObject.getArticleTitle();
+//            articlePageObject.waitForNavigationTypeElement();
+//            article_title_first = articlePageObject.getElementTypeNavigationBar();
             articlePageObject.addArticlesToMySaved();
             articlePageObject.closeArticle();
             articlePageObject.tapCancelButtonInSearch();
@@ -116,7 +117,7 @@ public class MyListsTests extends CoreTestCase {
             articlePageObject.addArticleToExistingList();
             articlePageObject.closeArticle();
         } else if (Platform.getInstance().isIOS()) {
-            searchPageObject.clickByArticleWithSubstring("JavaScript");
+//            searchPageObject.clickByArticleWithSubstring("JavaScript");
             articlePageObject.waitForNavigationTypeElement();
             article_title_second = articlePageObject.getElementTypeNavigationBar();
             articlePageObject.addArticlesToMySaved();

@@ -3,6 +3,7 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 
 import lib.Platform;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -142,9 +143,9 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void hideNoticeWindow() {
-        try{
+        try {
             this.waitForElementAndClick(HIDE_NOTICE_BUTTON, "Cannot find notice window", 5);
-        } catch (Exception e){
+        } catch (Exception e) {
             return;
         }
     }
@@ -200,5 +201,4 @@ abstract public class ArticlePageObject extends MainPageObject {
                 "Cannot find 'Cancel' search button",
                 10);
     }
-
 }

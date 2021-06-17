@@ -1,7 +1,7 @@
 package lib;
 
 import io.appium.java_client.AppiumDriver;
-import junit.framework.TestCase;
+import io.qameta.allure.Step;
 import lib.ui.WelcomePageObject;
 import org.junit.After;
 import org.junit.Before;
@@ -15,17 +15,17 @@ public class CoreTestCase {
     protected RemoteWebDriver driver;
 
     @Before
+    @Step("Run driver and session")
     public void setUp() throws Exception {
 
         driver = Platform.getInstance().getDriver();
-//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-//        driver.manage().timeouts().pageLoadTimeout(10000, TimeUnit.MILLISECONDS);
         this.rotateScreenToPortrait();
         this.skipWelcomePageForIOSApp();
         this.openWikiWebPageForMobileWeb();
     }
 
     @After
+    @Step("Remove driver and session")
     public void tearDown(){
 
         driver.quit();
