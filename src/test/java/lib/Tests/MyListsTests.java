@@ -1,5 +1,7 @@
 package lib.Tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -9,7 +11,7 @@ import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
-
+@Epic("Tests of saved articles")
 public class MyListsTests extends CoreTestCase {
     private static final String name_of_folder = "Learning programming";
     private static final String login = "MyOwnTestAccount";
@@ -17,6 +19,10 @@ public class MyListsTests extends CoreTestCase {
 
 
     @Test
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article"), @Feature(value = "MyLists")})
+    @DisplayName("Save first article to my list and delete it then")
+    @Description("We find and open an article, add it to my_list, check if it really added, and delete it then, and check, that article is not in our list")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testSaveFirstArticleToMyList() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -24,9 +30,6 @@ public class MyListsTests extends CoreTestCase {
         searchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
-//        if (Platform.getInstance().isMW()) {
-//            articlePageObject.hideNoticeWindow();
-//        }
         articlePageObject.waitForTitleElement();
         String article_title = articlePageObject.getArticleTitle();
         if (Platform.getInstance().isAndroid()) {
@@ -68,6 +71,10 @@ public class MyListsTests extends CoreTestCase {
     }
 
     @Test
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article"), @Feature(value = "MyLists")})
+    @DisplayName("Save two articles to my list and delete one of them")
+    @Description("We find and open an article, add it to my_list, then add next article, check if both of them are really added, and delete one of them, and check, that one article was deleted and another article was left in our list")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testSavedTwoArticlesToMyListsAndDeleteOne() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();

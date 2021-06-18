@@ -1,5 +1,6 @@
 package lib.ui;
 
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -16,11 +17,12 @@ abstract public class MyListsPageObject extends MainPageObject {
         super(driver);
     }
 
+    /*TEMPLATES*/
     private static String getFolderXPathByName(String name_of_folder) {
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
     }
 
-    private static String getArticleByTitleTpl(String article_title){
+    private static String getArticleByTitleTpl(String article_title) {
         return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", article_title);
     }
 
@@ -31,7 +33,9 @@ abstract public class MyListsPageObject extends MainPageObject {
     private static String getRemoveButtonByTitle(String article_title) {
         return REMOVE_FROM_SAVED_BUTTON.replace("{TITLE}", article_title);
     }
+    /*TEMPLATES*/
 
+    @Step("Opening folder by name '{name_of_folder}'")
     public void openFolderByName(String name_of_folder) {
         String folder_name_xpath = getFolderXPathByName(name_of_folder);
         this.waitForElementAndClick(
@@ -41,6 +45,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         );
     }
 
+    @Step("Waiting for article to appear by title '{article_title}'")
     public void waitForArticleToAppearByTitle(String article_title) {
         String article_xpath = getSavedArticleXPathByTitle(article_title);
         this.waitForElementPresent(
@@ -50,6 +55,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         );
     }
 
+    @Step("Waiting for article to disappear by title '{article_title}'")
     public void waitForArticleToDisappearByTitle(String article_title) {
         String article_xpath = getSavedArticleXPathByTitle(article_title);
         this.waitForElementNotPresent(
@@ -59,6 +65,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         );
     }
 
+    @Step("Swiping article to delete with title '{article_title}'")
     public void swipeArticleToDelete(String article_title) {
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXPathByTitle(article_title);
@@ -85,18 +92,18 @@ abstract public class MyListsPageObject extends MainPageObject {
         this.waitForArticleToDisappearByTitle(article_title);
     }
 
-
+    @Step("Tapping to close button of overlay screen in saved in iOS")
     public void tapCloseButtonInOverlayScreenInSaved() {
         this.waitForElementAndClick(CLOSE_OVERLAY_SYNC_YOUR_SAVED_ARTICLES, "Cannot find 'Close' button on overlay screen 'sync your saved articles'", 10);
     }
 
-    public void clickOnHeaderOfArticle(String article_title){
+    @Step("Clicking on header of article '{article_title}'")
+    public void clickOnHeaderOfArticle(String article_title) {
         String header = getArticleByTitleTpl(article_title);
         this.waitForElementAndClick(
                 header,
                 "Cannot find article with title " + header,
                 15
         );
-
     }
 }

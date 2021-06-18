@@ -2,6 +2,7 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
@@ -21,14 +22,14 @@ abstract public class ArticlePageObject extends MainPageObject {
             CLOSE_ARTICLE_BUTTON,
             EXISTING_FOLDER,
             ELEMENT_TYPE_NAVIGATION_BAR,
-            CANCEL_SEARCH_BUTTON,
-            HIDE_NOTICE_BUTTON;
+            CANCEL_SEARCH_BUTTON;
 
 
     public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
+    @Step("Waiting for title element")
     public WebElement waitForTitleElement() {
         return this.waitForElementPresent(
                 TITLE,
@@ -37,6 +38,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
 
+    @Step("Waiting for title element in seconds")
     public WebElement waitForTitleElement(int seconds) {
         return this.waitForElementPresent(
                 TITLE,
@@ -45,6 +47,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
 
+    @Step("Waiting for navigation type element")
     public WebElement waitForNavigationTypeElement() {
         return this.waitForElementPresent(
                 ELEMENT_TYPE_NAVIGATION_BAR,
@@ -53,6 +56,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
 
+    @Step("Waiting for navigation type element in seconds")
     public WebElement waitForNavigationTypeElement(int seconds) {
         return this.waitForElementPresent(
                 ELEMENT_TYPE_NAVIGATION_BAR,
@@ -61,8 +65,10 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
 
+    @Step("Getting article title")
     public String getArticleTitle() {
         WebElement title_element = waitForTitleElement();
+        screenshot(this.take_screenshot("article_title"));
         if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("text");
         } else if (Platform.getInstance().isIOS()) {
@@ -72,11 +78,13 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Getting element type from navigation bar for iOS")
     public String getElementTypeNavigationBar() {
         WebElement nav_element = waitForNavigationTypeElement();
         return nav_element.getAttribute("name");
     }
 
+    @Step("Swiping to footer")
     public void swipeToFooter() {
         if (Platform.getInstance().isAndroid()) {
             this.swipeUpFindToElements(
@@ -99,6 +107,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Adding article to my list")
     public void addArticleToMyList(String name_of_folder) {
         this.waitForElementAndClick(
                 OPTIONS_BUTTON,
@@ -134,6 +143,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
 
+    @Step("Adding article to my saved list")
     public void addArticlesToMySaved() {
         if (Platform.getInstance().isMW()) {
             this.removeArticleFromMySavedIfItAdded();
@@ -142,14 +152,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 15);
     }
 
-    public void hideNoticeWindow() {
-        try {
-            this.waitForElementAndClick(HIDE_NOTICE_BUTTON, "Cannot find notice window", 5);
-        } catch (Exception e) {
-            return;
-        }
-    }
-
+    @Step("Removing article from my list if it was added")
     public void removeArticleFromMySavedIfItAdded() {
         if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)) {
             this.waitForElementAndClick(
@@ -163,6 +166,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Adding article to existing list")
     public void addArticleToExistingList() {
         this.waitForElementAndClick(
                 OPTIONS_BUTTON,
@@ -183,6 +187,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
 
+    @Step("Closing opening article")
     public void closeArticle() {
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
             this.waitForElementAndClick(
@@ -195,6 +200,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Tapping cancel button in search line")
     public void tapCancelButtonInSearch() {
         this.waitForElementAndClick(
                 CANCEL_SEARCH_BUTTON,

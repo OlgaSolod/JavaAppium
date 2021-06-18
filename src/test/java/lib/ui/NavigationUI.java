@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -15,6 +16,7 @@ abstract public class NavigationUI extends MainPageObject {
         super(driver);
     }
 
+    @Step("Open navigation menu")
     public void openNavigation() {
         if (Platform.getInstance().isMW()) {
             this.waitForElementAndClick(OPEN_NAVIGATION,
@@ -25,6 +27,7 @@ abstract public class NavigationUI extends MainPageObject {
         }
     }
 
+    @Step("Clicking on my lists menu")
     public void clickMyLists() {
         if (Platform.getInstance().isMW()) {
             this.tryClickElementWithFewAttempts(
@@ -41,6 +44,7 @@ abstract public class NavigationUI extends MainPageObject {
         }
     }
 
+    @Step("Clicking on return button to return to main page")
     public void clickToReturnToMainPage() {
         waitForElementAndClick(RETURN_TO_MAIN_PAGE, "Cannot click to Wikipedia-main page button", 15);
     }
