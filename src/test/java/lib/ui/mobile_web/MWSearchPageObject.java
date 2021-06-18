@@ -11,6 +11,7 @@ public class MWSearchPageObject extends SearchPageObject {
         SEARCH_CANCEL_BUTTON = "xpath://div[@class='header-action']/child::button";
         SEARCH_RESULT_ELEMENT = "css:ul.page-list>li.page-summary";
         SEARCH_EMPTY_RESULT_ELEMENT = "css:p.without-results";
+        SEARCH_RESULT_BY_NAME_AND_DESCRIPTION_TPL_MW = "xpath://li[contains(@title,'{TITLE}')]//div[contains(@class,'wikidata-description')][contains(text(),'{DESCRIPTION}')]";
 
     }
 
